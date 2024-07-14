@@ -4,18 +4,19 @@ import Text from '../Text';
 
 export const Container = styled.View`
   width: 350px;
-  height: 260px;
+  height: auto;
   border-width: 1px;
   background-color: ${({theme}) => theme.colors.white};
   border-color: ${({theme}) => theme.colors.gray5};
   border-radius: 8px;
   margin-top: 9px;
   margin-bottom: 10px;
+  padding-bottom: 10px;
 `;
 
 export const Image = styled(ImageBase)`
   width: auto;
-  height: 180px;
+  height: 160px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
 `;

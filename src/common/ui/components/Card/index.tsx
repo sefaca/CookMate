@@ -8,8 +8,8 @@ const Card: React.FC<Props> = ({image, title, description}) => {
     <TouchableOpacity>
       <Container>
         <Image source={{uri: image}} />
-        <TitleRecipe>{title}</TitleRecipe>
-        <Description>{description}</Description>
+        <TitleRecipe numberOfLines={1}>{title}</TitleRecipe>
+        <Description numberOfLines={2}>{description}</Description>
       </Container>
     </TouchableOpacity>
   );
