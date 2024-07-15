@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import styled from 'styled-components/native';
 import Text from '../../common/ui/components/Text';
 import {TextInput} from 'react-native';

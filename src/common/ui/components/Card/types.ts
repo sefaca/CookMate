@@ -3,5 +3,5 @@ export type Props = {
   title: string;
   description: string;
   image?: string;
-  onPress?: (id: string) => void;
+  onPress?: () => void;
 };

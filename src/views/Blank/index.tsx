@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, ActivityIndicator, Text, TextInput} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import VoiceButton from '../../common/ui/components/VoiceButton';
 import {
   AppTitle,
@@ -16,6 +17,7 @@ import useRecipes from './viewmodel';
 export const Blank: React.FC<Props> = () => {
   const [searchText, setSearchText] = useState('');
   const {recipes, loading, error, fetchRecipes} = useRecipes('');
+  const navigation = useNavigation();
 
   // Actualizar las recetas cuando cambie el texto de búsqueda
   useEffect(() => {
@@ -55,6 +57,7 @@ export const Blank: React.FC<Props> = () => {
                 image={recipe.image}
                 title={recipe.title}
                 description={recipe.summary || 'No description available'}
+                onPress={() => navigation.navigate('RecipeDetail', {recipe})}
               />
             </CardWrapper>
           ))}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {Image as ImageBase} from 'react-native';
 import styled from 'styled-components/native';
 import Text from '../Text';

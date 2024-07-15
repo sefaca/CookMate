@@ -1,8 +1,8 @@
-// import type {FC} from 'react';
+import type {FC} from 'react';
 // import type {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 // import type {CompositeScreenProps} from '@react-navigation/native';
-// import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-// // import type {RootTabParamList} from './Tabs/types';
+import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import type {RootTabParamList} from './Tabs/types';
 
 // declare global {
 //   namespace ReactNavigation {
@@ -16,15 +16,16 @@ export type RootParamsList = {
   BlankAuth: undefined;
   Tabs: undefined;
   Blank: undefined;
+  RecipeDetail: undefined;
 };
 
-// export type ScreensParamsList = RootParamsList & RootTabParamList;
+export type ScreensParamsList = RootParamsList & RootTabParamList;
 
-// export type ScreenName = keyof ScreensParamsList;
+export type ScreenName = keyof ScreensParamsList;
 
-// export type ScreenComponent<S extends ScreenName> = FC<
-//   NativeStackScreenProps<ScreensParamsList, S>
-// >;
+export type ScreenComponent<S extends ScreenName> = FC<
+  NativeStackScreenProps<ScreensParamsList, S>
+>;
 
 // export type MainStackScreenProps<Screen extends keyof RootParamsList> =
 //   NativeStackScreenProps<RootParamsList, Screen>;
