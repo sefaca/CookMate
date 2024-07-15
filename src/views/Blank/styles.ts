@@ -26,8 +26,6 @@ export const AppTitle = styled(Text).attrs({
   font-weight: bold;
 `;
 
-export const CardsContainer = styled.ScrollView`
-`;
+export const CardsContainer = styled.ScrollView``;
 
-export const CardWrapper = styled.View`
-`;
+export const CardWrapper = styled.View``;
