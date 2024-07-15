@@ -1,5 +1,5 @@
-import React from 'react';
-import {ScrollView, ActivityIndicator, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {ScrollView, ActivityIndicator, Text, TextInput} from 'react-native';
 import VoiceButton from '../../common/ui/components/VoiceButton';
 import {
   AppTitle,
@@ -7,13 +7,24 @@ import {
   Container,
   Header,
   CardWrapper,
+  Input,
 } from './styles';
 import type {Props} from './types';
 import Card from '../../common/ui/components/Card';
 import useRecipes from './viewmodel';
 
 export const Blank: React.FC<Props> = () => {
-  const {recipes, loading, error} = useRecipes('italian');
+  const [searchText, setSearchText] = useState('');
+  const {recipes, loading, error, fetchRecipes} = useRecipes('');
+
+  // Actualizar las recetas cuando cambie el texto de búsqueda
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchRecipes(searchText);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchText]);
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
@@ -26,6 +37,11 @@ export const Blank: React.FC<Props> = () => {
     <Container>
       <Header>
         <AppTitle>CookMate</AppTitle>
+        <Input
+          placeholder="Search Recipes"
+          value={searchText}
+          onChangeText={setSearchText}
+        />
         <VoiceButton
           title="Voice"
           onPress={() => console.log('Voice button pressed')}

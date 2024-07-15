@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import Text from '../Text';
 
 export const Container = styled.View`
-  width: 350px;
+  width: 365px;
   height: auto;
   border-width: 1px;
   background-color: ${({theme}) => theme.colors.white};

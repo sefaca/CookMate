@@ -4,6 +4,8 @@ export const colors = {
   pink: '#FFCCD2',
   tealGreen: '#4ECCA3',
   gray1: '#EFEFEF',
+  gray2: '#f4f4f5',
+  gray3: '#e4e4e7',
   black: '#081F32',
   white: '#FFFFFF',
   gray: '#C7C7CC',
