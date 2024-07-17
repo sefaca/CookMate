@@ -13,4 +13,7 @@ export const colors = {
   blueSoft: '#f7f7ff',
   blueBold: '#2464ea',
   blueMedium: '#4a69b8',
+  yellowMedium: '#f4b04a',
+  sliderBlue: '#279af5',
+  sliderBlueLight: '#b3e6ff',
 };

@@ -17,6 +17,7 @@ export type RootParamsList = {
   Tabs: undefined;
   Blank: undefined;
   RecipeDetail: undefined;
+  RecipeSelectorScreen: undefined;
 };
 
 export type ScreensParamsList = RootParamsList & RootTabParamList;

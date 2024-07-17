@@ -7,6 +7,7 @@ const tabs: Record<keyof RootTabParamList, string> = {
   Location: 'Location',
   Blank: 'Blank',
   RecipeDetail: 'RecipeDetail',
+  RecipeSelectorScreen: 'RecipeSelectorScreen',
 };
 
 const actions = {

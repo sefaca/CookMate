@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, ActivityIndicator, Text, TextInput} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {ScrollView, ActivityIndicator, Text, View} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import VoiceButton from '../../common/ui/components/VoiceButton';
 import {
   AppTitle,
@@ -18,22 +18,44 @@ export const Blank: React.FC<Props> = () => {
   const [searchText, setSearchText] = useState('');
   const {recipes, loading, error, fetchRecipes} = useRecipes('');
   const navigation = useNavigation();
+  const route = useRoute();
 
-  // Actualizar las recetas cuando cambie el texto de búsqueda
+  const {calorieRange, cuisine} = route.params || {
+    calorieRange: {min: 100, max: 3500},
+    cuisine: '',
+  };
+
   useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      fetchRecipes(searchText);
-    }, 500);
+    const fetchRecipesByFilters = async () => {
+      try {
+        await fetchRecipes(searchText, calorieRange, cuisine);
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
+    };
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [searchText]);
+    fetchRecipesByFilters();
+  }, [searchText, calorieRange, cuisine]);
 
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
+
   if (error) {
     return <Text>Error fetching recipes: {error.message}</Text>;
   }
+
+  if (recipes.length === 0) {
+    return (
+      <Container>
+        <Text>No recipes found. Try adjusting your search criteria.</Text>
+      </Container>
+    );
+  }
+
+  const handleVoiceButtonPress = () => {
+    navigation.navigate('RecipeSelectorScreen');
+  };
 
   return (
     <Container>
@@ -44,19 +66,16 @@ export const Blank: React.FC<Props> = () => {
           value={searchText}
           onChangeText={setSearchText}
         />
-        <VoiceButton
-          title="Voice"
-          onPress={() => console.log('Voice button pressed')}
-        />
+        <VoiceButton title="Voice" onPress={handleVoiceButtonPress} />
       </Header>
       <CardsContainer>
         <ScrollView>
           {recipes.map(recipe => (
-            <CardWrapper key={recipe.id}>
+            <CardWrapper key={recipe.uri}>
               <Card
                 image={recipe.image}
-                title={recipe.title}
-                description={recipe.summary || 'No description available'}
+                title={recipe.label}
+                description={recipe.source || 'No description available'}
                 onPress={() => navigation.navigate('RecipeDetail', {recipe})}
               />
             </CardWrapper>
