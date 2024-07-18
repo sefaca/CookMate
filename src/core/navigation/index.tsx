@@ -4,6 +4,8 @@ import {Blank} from '../../views/Blank';
 import {generalStackScreenOptions, rootStackScreenOptions} from './constants';
 // import {Tabs} from './Tabs';
 import type {RootParamsList} from './types';
+import RecipeDetail from '../../views/RecipeDetail/RecipeDetail';
+import RecipeSelectorScreen from '../../views/RecipeSelectorScreen/RecipeSelectorScreen';
 
 const {Navigator, Group, Screen} = createNativeStackNavigator<RootParamsList>();
 
@@ -11,7 +13,9 @@ const AppNavigator: FC = () => (
   <Navigator screenOptions={rootStackScreenOptions}>
     <Group screenOptions={generalStackScreenOptions}>
       {/* <Screen name="Tabs" component={Tabs} /> */}
+      <Screen name="RecipeSelectorScreen" component={RecipeSelectorScreen} />
       <Screen name="Blank" component={Blank} />
+      <Screen name="RecipeDetail" component={RecipeDetail} />
     </Group>
   </Navigator>
 );

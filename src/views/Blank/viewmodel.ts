@@ -1,55 +1,79 @@
-/* eslint-disable prettier/prettier */
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
-const useRecipes = (query: string) => {
+const useRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      try {
-        const response = await axios.get(
-          'https://api.spoonacular.com/recipes/complexSearch',
-          {
-            params: {
-              query,
-              number: 10,
-              apiKey: '8950dbd43f9e4901894c97b30bbf7936',
-            },
-          },
-        );
+  const fetchRecipes = async (
+    query: string,
+    calorieRange: {min: number; max: number},
+    cuisine: string,
+  ) => {
+    setLoading(true);
+    setError(null);
 
-        const recipes = response.data.results;
+    try {
+      const params: any = {
+        q: query,
+        app_id: '2ff36a96',
+        app_key: '1a3827c211c1a106ed1e49e76f6c66f5',
+        from: 0,
+        to: 10,
+        calories: `${calorieRange.min}-${calorieRange.max}`,
+      };
 
-        // Fetch detailed information for each recipe
-        const detailedRecipes = await Promise.all(
-          recipes.map(async recipe => {
-            const detailResponse = await axios.get(
-              `https://api.spoonacular.com/recipes/${recipe.id}/information`,
-              {
-                params: {
-                  apiKey: '8950dbd43f9e4901894c97b30bbf7936',
-                },
-              },
-            );
-            return detailResponse.data;
-          }),
-        );
-
-        setRecipes(detailedRecipes);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
+      if (cuisine) {
+        params.cuisineType = cuisine;
       }
-    };
 
-    fetchRecipes();
-  }, [query]);
+      console.log('Fetching recipes with params:', params);
 
-  return {recipes, loading, error};
+      const response = await axios.get('https://api.edamam.com/search', {
+        params,
+      });
+
+      const recipesData = response.data.hits.map(hit => {
+        const recipe = hit.recipe;
+        return {
+          ...recipe,
+          ingredientLines: recipe.ingredientLines || [],
+          instructions: [
+            {
+              steps: [
+                {
+                  number: 1,
+                  step: 'Preheat your oven to 350°F (175°C).',
+                },
+                {
+                  number: 2,
+                  step: 'Mix all ingredients in a bowl.',
+                },
+                {
+                  number: 3,
+                  step: 'Pour the mixture into a baking dish and bake for 30 minutes.',
+                },
+              ],
+            },
+          ],
+        };
+      });
+      console.log('Fetched recipes:', recipesData);
+
+      setRecipes(recipesData);
+    } catch (err) {
+      console.error(
+        'Error fetching recipes:',
+        err.response?.data ?? err.message,
+      );
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {recipes, loading, error, fetchRecipes};
 };
 
 export default useRecipes;
