@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {ScrollView, ActivityIndicator, Text, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import VoiceButton from '../../common/ui/components/VoiceButton';
 import {
   AppTitle,
   CardsContainer,
@@ -53,10 +52,6 @@ export const Blank: React.FC<Props> = () => {
     );
   }
 
-  const handleVoiceButtonPress = () => {
-    navigation.navigate('RecipeSelectorScreen');
-  };
-
   return (
     <Container>
       <Header>
@@ -66,7 +61,6 @@ export const Blank: React.FC<Props> = () => {
           value={searchText}
           onChangeText={setSearchText}
         />
-        <VoiceButton title="Voice" onPress={handleVoiceButtonPress} />
       </Header>
       <CardsContainer>
         <ScrollView>

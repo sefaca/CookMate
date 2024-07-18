@@ -64,4 +64,19 @@ export const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
+  input: {
+    marginLeft: 37,
+  },
+  cuisineOptionsContainer: {
+    borderWidth: 2,
+    width: '70%',
+    marginLeft: 40,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 10,
+    borderColor: '#FFFFFF',
+  },
+  cuisineOption: {
+    marginLeft: 20,
+  },
 });

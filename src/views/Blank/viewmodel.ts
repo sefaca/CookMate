@@ -20,7 +20,7 @@ const useRecipes = () => {
         app_id: '2ff36a96',
         app_key: '1a3827c211c1a106ed1e49e76f6c66f5',
         from: 0,
-        to: 2,
+        to: 10,
         calories: `${calorieRange.min}-${calorieRange.max}`,
       };
 
@@ -34,7 +34,31 @@ const useRecipes = () => {
         params,
       });
 
-      const recipesData = response.data.hits.map(hit => hit.recipe);
+      const recipesData = response.data.hits.map(hit => {
+        const recipe = hit.recipe;
+        return {
+          ...recipe,
+          ingredientLines: recipe.ingredientLines || [],
+          instructions: [
+            {
+              steps: [
+                {
+                  number: 1,
+                  step: 'Preheat your oven to 350°F (175°C).',
+                },
+                {
+                  number: 2,
+                  step: 'Mix all ingredients in a bowl.',
+                },
+                {
+                  number: 3,
+                  step: 'Pour the mixture into a baking dish and bake for 30 minutes.',
+                },
+              ],
+            },
+          ],
+        };
+      });
       console.log('Fetched recipes:', recipesData);
 
       setRecipes(recipesData);

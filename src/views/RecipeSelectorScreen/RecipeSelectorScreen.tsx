@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
-import {ScrollView, View, ImageBackground, TextInput} from 'react-native';
-import Slider from '@react-native-community/slider';
+import {
+  ScrollView,
+  View,
+  ImageBackground,
+  TextInput,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import {colors} from '../../common/ui/theme/colors';
 import {
   InputContainer,
@@ -13,16 +19,22 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import Button from '../../common/ui/components/Button';
 import SearchButton from '../../common/ui/components/SearchButton';
-import imgFondo from '../../assets/imgs/imgFondo.png'; // Asegúrate de que la ruta sea correcta
+import imgFondo from '../../assets/imgs/imgFondo2.jpg'; // Asegúrate de que la ruta sea correcta
 
 const RecipeSelectorScreen: React.FC = () => {
   const [calorieRange, setCalorieRange] = useState({min: 100, max: 3500});
   const [manualCalories, setManualCalories] = useState('');
+  const [cuisine, setCuisine] = useState('');
+  const [showCuisineOptions, setShowCuisineOptions] = useState(false);
   const navigation = useNavigation();
 
   const handleSearch = () => {
-    console.log('Buscar recetas con las siguientes opciones:', calorieRange);
-    navigation.navigate('Blank', {calorieRange});
+    console.log(
+      'Buscar recetas con las siguientes opciones:',
+      calorieRange,
+      cuisine,
+    );
+    navigation.navigate('Blank', {calorieRange, cuisine});
   };
 
   const handleManualCaloriesChange = (text: string) => {
@@ -36,6 +48,22 @@ const RecipeSelectorScreen: React.FC = () => {
     }
   };
 
+  const cuisineOptions = [
+    'American',
+    'Asian',
+    'British',
+    'Caribbean',
+    'Chinese',
+    'French',
+    'Indian',
+    'Italian',
+    'Japanese',
+    'Mexican',
+    'Middle Eastern',
+    'Mediterranean',
+    'Thai',
+  ];
+
   return (
     <ImageBackground source={imgFondo} style={styles.background}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -43,22 +71,8 @@ const RecipeSelectorScreen: React.FC = () => {
           <Title>Plan your meal</Title>
           <InputContainer>
             <TextCalories>
-              {calorieRange.min} - {calorieRange.max} cal
+              {calorieRange.min} - {calorieRange.max} kcal
             </TextCalories>
-            {/* <Slider
-              style={styles.slider}
-              minimumValue={100}
-              maximumValue={3500}
-              minimumTrackTintColor={colors.sliderBlue}
-              maximumTrackTintColor={colors.sliderBlueLight}
-              thumbTintColor={colors.yellowMedium}
-              value={calorieRange.min}
-              step={100}
-              trackHeight={10}
-              onValueChange={value =>
-                setCalorieRange({min: value, max: value + 100})
-              }
-            /> */}
           </InputContainer>
           <InputContainer>
             <Label>Manual Calories</Label>
@@ -69,6 +83,31 @@ const RecipeSelectorScreen: React.FC = () => {
               value={manualCalories}
               onChangeText={handleManualCaloriesChange}
             />
+          </InputContainer>
+          <InputContainer>
+            <Label onPress={() => setShowCuisineOptions(!showCuisineOptions)}>
+              {showCuisineOptions
+                ? 'Hide Cuisine Options'
+                : 'Show Cuisine Options'}
+            </Label>
+            {showCuisineOptions && (
+              <View style={styles.cuisineOptionsContainer}>
+                {cuisineOptions.map(option => (
+                  <TouchableOpacity
+                    key={option}
+                    onPress={() => {
+                      setCuisine(option);
+                      setShowCuisineOptions(false);
+                    }}
+                    style={[
+                      styles.cuisineOption,
+                      cuisine === option && styles.selectedCuisineOption,
+                    ]}>
+                    <Text>{option}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
           </InputContainer>
           <SearchButton title="Search" onPress={handleSearch} />
         </TargetContainer>
